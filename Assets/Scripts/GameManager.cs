@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject _clueCanvas;
     public GameObject _saveCanvas;
     public Flowchart _notesCanvas;
-    public bool _isInteracting = false;
-
+    
+    bool _isInteracting = false;
     PlayerMovement _pm;
     PlayerCamera _pc;
     InteractionController _ic;
@@ -62,7 +62,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetIsInteracting(bool val) { _isInteracting = val; Cursor.lockState = CursorLockMode.Locked; }
+    public void SetIsInteracting(bool val) { _isInteracting = val; }
+    public bool GetIsInteracting() => _isInteracting;
 
     void CanInteract(bool isInteracting)
     {
@@ -71,5 +72,10 @@ public class GameManager : MonoBehaviour
         _pc.enabled = isInteracting;
         _ic.enabled = isInteracting;
         _ec.enabled = isInteracting;
+
+        if (!isInteracting)
+            Cursor.lockState = CursorLockMode.None;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
     }
 }

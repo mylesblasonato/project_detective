@@ -8,7 +8,7 @@ public class ClueManager : MonoBehaviour
 {
     public KeyCode openUIKey;
     public GameObject _clueCanvas;
-    public Flowchart _notesFlowchart;
+    public Flowchart _notesFlowchart, _addItemEffect;
     public PlayerCamera _playerCamera;
     public NotesManager _nm;
 
@@ -47,12 +47,18 @@ public class ClueManager : MonoBehaviour
             _clueCanvas.SetActive(!_clueCanvas.activeSelf);
             _nm.enabled = !_nm.enabled;
 
-            if(_clueCanvas.activeSelf)
+            if (_clueCanvas.activeSelf)
+            {
                 Cursor.lockState = CursorLockMode.None;
+                _addItemEffect.SetBooleanVariable("LookingAtClues", true);
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+                _addItemEffect.SetBooleanVariable("LookingAtClues", false);
+            }
 
-            GameManager._instance._isInteracting = !GameManager._instance._isInteracting;
+            GameManager._instance.SetIsInteracting(!GameManager._instance.GetIsInteracting());
         }
     }
 }

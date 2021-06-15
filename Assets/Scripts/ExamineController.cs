@@ -23,7 +23,7 @@ public class ExamineController : MonoBehaviour
     {
         if (Input.GetKeyDown(_examineKey))
         {
-            GameManager._instance._isInteracting = true;
+            GameManager._instance.SetIsInteracting(true);
             _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(_ray, out _hit, _distance, _interactableLayer))
             {
@@ -34,7 +34,7 @@ public class ExamineController : MonoBehaviour
             }
             else
             {
-                GameManager._instance._isInteracting = false;
+                GameManager._instance.SetIsInteracting(false);
                 if (Physics.Raycast(_ray, out _hit, 100f, _interactableLayer))
                 {
                     _hit.transform.GetComponent<InteractionEntity>()._entityFlowchart.SendFungusMessage(_tooFar);

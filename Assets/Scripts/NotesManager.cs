@@ -42,10 +42,8 @@ public class NotesManager : MonoBehaviour
             if (_notesFlowTween.GetBooleanVariable("IsUp"))
             {
                 _notesFlowTween.SendFungusMessage("Close");
-                GameManager._instance._isInteracting = false;
+                GameManager._instance.SetIsInteracting(false);
                 _cursor.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-                _cm.enabled = true;
             }
             else
             {
@@ -56,11 +54,9 @@ public class NotesManager : MonoBehaviour
                         note.GetComponent<Button>().interactable = true;
                 }
 
-                Cursor.lockState = CursorLockMode.None;
                 _notesFlowTween.SendFungusMessage("Open");
-                GameManager._instance._isInteracting = true;
+                GameManager._instance.SetIsInteracting(true);
                 _cursor.SetActive(true);
-                _cm.enabled = false;
             }
         }
     }
@@ -82,13 +78,22 @@ public class NotesManager : MonoBehaviour
         _noteInventory.Add(note);
         var go = Instantiate(_noteButtonPrefab, _viewportContentForNotes);
         go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = note._noteTextForUI;
+
+        foreach (Transform nt in _viewportContentForNotes)
+        {
+            var btn = nt.GetComponent<Button>();
+            if (btn != null)
+                nt.GetComponent<Button>().interactable = false;
+        }
+
         go.GetComponent<Button>().onClick.AddListener(() => SetActiveNote(note));
         note._uiInstance = go;
     }
 
     public void RemoveNote(Note note)
     {
-        _noteInventory.Remove(note);
+        _addItemEffect.SetActive(true);
+        _noteInventory.Remove(note);     
         note._uiInstance.GetComponent<Button>().onClick.RemoveListener(() => SetActiveNote(note));
         Destroy(note._uiInstance);
     }

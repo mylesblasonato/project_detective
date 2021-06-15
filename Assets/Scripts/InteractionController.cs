@@ -27,9 +27,10 @@ public class InteractionController : MonoBehaviour, IInteractable
             _ray = new Ray(transform.position, Camera.main.transform.forward);
             if (Physics.Raycast(_ray, out _hit, _distance, _interactableLayer))
             {
+                Cursor.lockState = CursorLockMode.None;
                 var ent = _hit.transform.GetComponent<InteractionEntity>();
                 if (ent._hasInteracted) return;
-                GameManager._instance._isInteracting = true;
+                GameManager._instance.SetIsInteracting(true);
                 if (!_playerMovement.GetIsInteracting())
                 {
                     if (_nm._activeNote == ent._noteToUse)
@@ -44,7 +45,7 @@ public class InteractionController : MonoBehaviour, IInteractable
             }
             else
             {
-                GameManager._instance._isInteracting = false;
+                GameManager._instance.SetIsInteracting(false);
                 if (Physics.Raycast(_ray, out _hit, 100f, _interactableLayer))
                 {
                     _hit.transform.GetComponent<InteractionEntity>()._entityFlowchart.SendFungusMessage(_tooFar);

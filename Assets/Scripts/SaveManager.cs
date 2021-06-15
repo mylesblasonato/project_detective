@@ -60,7 +60,7 @@ public class SaveManager : MonoBehaviour
     {
         if(Input.GetKeyDown(_pauseKey))
         {
-            GameManager._instance._isInteracting = !GameManager._instance._isInteracting;
+            GameManager._instance.SetIsInteracting(!GameManager._instance.GetIsInteracting());
             _nm.enabled = !_nm.enabled;
             _player.GetComponent<InteractionController>().enabled = !_player.GetComponent<InteractionController>().enabled;
             _cm.enabled = !_cm.enabled;      
