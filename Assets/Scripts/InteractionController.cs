@@ -1,4 +1,5 @@
 using EasySurvivalScripts;
+using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,6 @@ public class InteractionController : MonoBehaviour, IInteractable
 {
     [SerializeField] LayerMask _interactableLayer;
     [SerializeField] float _distance = 2f;
-    [SerializeField] string _tooFar = "Too Far";
 
     NotesManager _nm;
     Ray _ray;
@@ -22,6 +22,7 @@ public class InteractionController : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        _nm.SetIsTalking(true);
         if (_nm._activeNote != null)
         {
             _ray = new Ray(transform.position, Camera.main.transform.forward);
@@ -30,30 +31,41 @@ public class InteractionController : MonoBehaviour, IInteractable
                 Cursor.lockState = CursorLockMode.None;
                 var ent = _hit.transform.GetComponent<InteractionEntity>();
                 if (ent._hasInteracted) return;
-                GameManager._instance.SetIsInteracting(true);
                 if (!_playerMovement.GetIsInteracting())
                 {
                     if (_nm._activeNote == ent._noteToUse)
                     {
-                        ent._entityFlowchart.SendFungusMessage(ent._message);
+                        GameManager._instance.SetIsInteracting(true);
+                        ent._entityFlowchart.ExecuteBlock(
+                        ent._entityFlowchart.FindBlock("Interact"),
+                        ent._entityFlowchart.GetExecutingBlocks().Count,
+                        delegate { _nm.SetIsTalking(false); GameManager._instance.SetIsInteracting(false); });
+
+                        ent._entityFlowchart.SendFungusMessage(ent.name);
                     }
                     else
                     {
-                        _nm._examineNotesFlow.SendFungusMessage(_nm._activeNote._examineMessage);
+                        GameManager._instance.SetIsInteracting(true);
+
+                        _nm._examineNotesFlow.ExecuteBlock(
+                                _nm._examineNotesFlow.FindBlock(_nm._activeNote.name),
+                                _nm._examineNotesFlow.GetExecutingBlocks().Count,
+                                delegate { _nm.SetIsTalking(false); GameManager._instance.SetIsInteracting(false); });
+
+                        _nm._examineNotesFlow.SendFungusMessage(_nm._activeNote.name);
                     }
                 }
             }
             else
             {
-                GameManager._instance.SetIsInteracting(false);
-                if (Physics.Raycast(_ray, out _hit, 100f, _interactableLayer))
-                {
-                    _hit.transform.GetComponent<InteractionEntity>()._entityFlowchart.SendFungusMessage(_tooFar);
-                }
-                else
-                {
-                    _nm._examineNotesFlow.SendFungusMessage(_nm._activeNote._examineMessage);
-                }
+                GameManager._instance.SetIsInteracting(true);
+
+                _nm._examineNotesFlow.ExecuteBlock(
+                        _nm._examineNotesFlow.FindBlock(_nm._activeNote.name),
+                        _nm._examineNotesFlow.GetExecutingBlocks().Count,
+                        delegate { _nm.SetIsTalking(false); GameManager._instance.SetIsInteracting(false); });
+
+                _nm._examineNotesFlow.SendFungusMessage(_nm._activeNote.name);
             }
         }
     }

@@ -44,21 +44,25 @@ public class ClueManager : MonoBehaviour
 
         if (Input.GetKeyDown(openUIKey))
         {
-            _clueCanvas.SetActive(!_clueCanvas.activeSelf);
-            _nm.enabled = !_nm.enabled;
-
-            if (_clueCanvas.activeSelf)
+            if (_playerCamera.enabled) _nm.SetIsTalking(false);
+            if (!_nm.GetIsTalking())
             {
-                Cursor.lockState = CursorLockMode.None;
-                _addItemEffect.SetBooleanVariable("LookingAtClues", true);
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                _addItemEffect.SetBooleanVariable("LookingAtClues", false);
-            }
+                _clueCanvas.SetActive(!_clueCanvas.activeSelf);
+                _nm.enabled = !_nm.enabled;
 
-            GameManager._instance.SetIsInteracting(!GameManager._instance.GetIsInteracting());
+                if (_clueCanvas.activeSelf)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    _addItemEffect.SetBooleanVariable("LookingAtClues", true);
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    _addItemEffect.SetBooleanVariable("LookingAtClues", false);
+                }
+
+                GameManager._instance.SetIsInteracting(!GameManager._instance.GetIsInteracting());
+            }
         }
     }
 }

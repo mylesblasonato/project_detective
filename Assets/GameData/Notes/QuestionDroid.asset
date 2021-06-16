@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b0281b973fa7f2488dcbb8104151df8, type: 3}
   m_Name: QuestionDroid
   m_EditorClassIdentifier: 
-  _noteNameInNotesManager: Droid Questioning
-  _noteTextForUI: Chat to Droid
-  _examineMessage: Droid Note
+  _noteTextForUI: Speak to Droid
   _uiInstance: {fileID: 0}

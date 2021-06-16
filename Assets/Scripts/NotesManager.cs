@@ -22,41 +22,51 @@ public class NotesManager : MonoBehaviour
     public Flowchart _notesFlowTween;
     public KeyCode _notesUI;
     public ClueManager _cm;
-
+    
+    bool _isTalking = false;
+    PlayerCamera _playerCamera;
     PlayerMovement _playerMovement;
 
     void Awake()
     {
         _notesManagerGameObject = transform;
         _playerMovement = FindObjectOfType<PlayerMovement>();
+        _playerCamera = FindObjectOfType<PlayerCamera>();
         _cm = FindObjectOfType<ClueManager>();
         _cursor = GameObject.FindGameObjectWithTag("Cursor");
         if (_activeNote != null) AddNote(_activeNote);
     }
+
+    public void SetIsTalking(bool isTalking) => _isTalking = isTalking;
+    public bool GetIsTalking() => _isTalking;
 
     bool _isUiOpen = false;
     void Update()
     {
         if(Input.GetKeyDown(_notesUI))
         {
-            if (_notesFlowTween.GetBooleanVariable("IsUp"))
+            if (_playerCamera.enabled) SetIsTalking(false);
+            if (!_isTalking)
             {
-                _notesFlowTween.SendFungusMessage("Close");
-                GameManager._instance.SetIsInteracting(false);
-                _cursor.SetActive(false);
-            }
-            else
-            {
-                foreach (Transform note in _viewportContentForNotes)
+                if (_notesFlowTween.GetBooleanVariable("IsUp"))
                 {
-                    var btn = note.GetComponent<Button>();
-                    if (btn != null)
-                        note.GetComponent<Button>().interactable = true;
+                    _notesFlowTween.SendFungusMessage("Close");
+                    GameManager._instance.SetIsInteracting(false);
+                    _cursor.SetActive(false);
                 }
+                else
+                {
+                    foreach (Transform note in _viewportContentForNotes)
+                    {
+                        var btn = note.GetComponent<Button>();
+                        if (btn != null && !btn.transform.GetChild(1).gameObject.activeSelf)
+                            note.GetComponent<Button>().interactable = true;
+                    }
 
-                _notesFlowTween.SendFungusMessage("Open");
-                GameManager._instance.SetIsInteracting(true);
-                _cursor.SetActive(true);
+                    _notesFlowTween.SendFungusMessage("Open");
+                    GameManager._instance.SetIsInteracting(true);
+                    _cursor.SetActive(true);
+                }
             }
         }
     }
@@ -74,7 +84,7 @@ public class NotesManager : MonoBehaviour
 
     public void AddNote(Note note)
     {
-        _addItemEffect.SetActive(true);
+        _addItemEffect.GetComponent<Flowchart>().SendFungusMessage("Open");
         _noteInventory.Add(note);
         var go = Instantiate(_noteButtonPrefab, _viewportContentForNotes);
         go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = note._noteTextForUI;
@@ -87,14 +97,15 @@ public class NotesManager : MonoBehaviour
         }
 
         go.GetComponent<Button>().onClick.AddListener(() => SetActiveNote(note));
+        go.transform.GetChild(2).gameObject.SetActive(true);
         note._uiInstance = go;
     }
 
     public void RemoveNote(Note note)
     {
-        _addItemEffect.SetActive(true);
-        _noteInventory.Remove(note);     
+        _addItemEffect.GetComponent<Flowchart>().SendFungusMessage("Open");
+        note._uiInstance.transform.GetChild(1).gameObject.SetActive(true);
+        note._uiInstance.GetComponent<Button>().interactable = false;
         note._uiInstance.GetComponent<Button>().onClick.RemoveListener(() => SetActiveNote(note));
-        Destroy(note._uiInstance);
     }
 }

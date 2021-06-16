@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _noteNameInNotesManager: Find Keys
   _noteTextForUI: Look for your keys
-  _examineMessage: Examine Keys
+  _examineMessage: Examine
   _uiInstance: {fileID: 0}

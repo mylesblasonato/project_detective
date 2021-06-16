@@ -39,6 +39,8 @@ namespace EasySurvivalScripts
         Transform _fpsCameraHelper;
         Transform _tpsCameraHelper;
 
+
+
         private void Awake()
         {
             xClamp = 0;
