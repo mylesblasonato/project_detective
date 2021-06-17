@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91481552bc16cad4ebde3ee5d9e49a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noteToUse: {fileID: 11400000, guid: 9a94f577feb41674d9032f217c9f9e04, type: 2}
+  _noteToUse: {fileID: 11400000, guid: 7bda9fb1b4326ed46bc186b6bbef3812, type: 2}
   _entityFlowchart: {fileID: 1243006113}
   _hasInteracted: 0
 --- !u!65 &83427370
@@ -478,7 +478,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 516
     y: 206
-    width: 69
+    width: 109
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -563,7 +563,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 325
     y: 206
-    width: 75
+    width: 115
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -664,7 +664,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 380
     y: 318
-    width: 143
+    width: 183
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -963,7 +963,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 493
     y: 111
-    width: 113
+    width: 153
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -1113,7 +1113,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 313
     y: 112
-    width: 119
+    width: 159
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -1465,7 +1465,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 470.2963
     y: 169.7299
-    width: 60
+    width: 95.744675
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -1593,7 +1593,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 214.84535
     y: 168.93814
-    width: 60
+    width: 98.93617
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -1705,7 +1705,7 @@ MonoBehaviour:
   indentLevel: 0
   _notesToAdd:
   - {fileID: 11400000, guid: 9e4021bb5065a2f45bcad931cf4ead73, type: 2}
-  - {fileID: 11400000, guid: 9a94f577feb41674d9032f217c9f9e04, type: 2}
+  - {fileID: 11400000, guid: 7bda9fb1b4326ed46bc186b6bbef3812, type: 2}
   _waitDuration: 1
 --- !u!114 &164097301
 MonoBehaviour:
@@ -1928,7 +1928,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 96.52588
     y: 115.65971
-    width: 60
+    width: 93
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2061,7 +2061,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: -59.74231
     y: 118.09277
-    width: 60
+    width: 97
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2100,7 +2100,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 164097310}
   selectedCommands:
-  - {fileID: 164097316}
+  - {fileID: 164097300}
   variables:
   - {fileID: 164097303}
   description: 
@@ -4190,7 +4190,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 450.5772
     y: 175.94835
-    width: 60
+    width: 94.329895
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -4337,7 +4337,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 178.76282
     y: 180.27837
-    width: 60
+    width: 98.453606
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -5946,7 +5946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 27566093}
+  selectedFlowchart: {fileID: 158001651}
 --- !u!4 &903987703
 Transform:
   m_ObjectHideFlags: 1
@@ -6493,7 +6493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91481552bc16cad4ebde3ee5d9e49a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noteToUse: {fileID: 11400000, guid: b9126e5ac86c6494ba7554bc5e10c6b7, type: 2}
+  _noteToUse: {fileID: 11400000, guid: 418217aedd7573f40acada9ebf0c0896, type: 2}
   _entityFlowchart: {fileID: 158001651}
   _hasInteracted: 0
 --- !u!65 &1147097535
@@ -7140,7 +7140,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 480.47406
     y: 174.91751
-    width: 60
+    width: 94.329895
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -7185,7 +7185,7 @@ MonoBehaviour:
   itemId: 25
   indentLevel: 0
   _notesToRemove:
-  - {fileID: 11400000, guid: 9a94f577feb41674d9032f217c9f9e04, type: 2}
+  - {fileID: 11400000, guid: 7bda9fb1b4326ed46bc186b6bbef3812, type: 2}
   _waitDuration: 1
 --- !u!114 &1243006107
 MonoBehaviour:
@@ -7202,7 +7202,7 @@ MonoBehaviour:
   itemId: 24
   indentLevel: 0
   _notesToAdd:
-  - {fileID: 11400000, guid: b9126e5ac86c6494ba7554bc5e10c6b7, type: 2}
+  - {fileID: 11400000, guid: 418217aedd7573f40acada9ebf0c0896, type: 2}
   _waitDuration: 1
 --- !u!114 &1243006109
 MonoBehaviour:
@@ -7318,7 +7318,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 195.25769
     y: 174.09279
-    width: 60
+    width: 98.453606
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -7357,7 +7357,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 1243006104}
   selectedCommands:
-  - {fileID: 1243006099}
+  - {fileID: 1243006107}
   variables: []
   description: 
   stepPause: 0
@@ -9878,7 +9878,6 @@ MonoBehaviour:
   _distance: 5
   _examineKey: 323
   _examine: Examine
-  _tooFar: Too Far
 --- !u!114 &1285612114592641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13885,7 +13884,7 @@ RectTransform:
   m_GameObject: {fileID: 2949301444597975284}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.53333336, y: 0.53333336, z: 0.53333336}
+  m_LocalScale: {x: 0.26666668, y: 0.26666668, z: 0.26666668}
   m_Children: []
   m_Father: {fileID: 2949301445963630313}
   m_RootOrder: 3
