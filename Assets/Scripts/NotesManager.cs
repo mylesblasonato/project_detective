@@ -22,7 +22,8 @@ public class NotesManager : MonoBehaviour
     public Flowchart _notesFlowTween;
     public KeyCode _notesUI;
     public ClueManager _cm;
-    
+    public string _openNotesMessage, _closeNotesMessage;
+
     bool _isTalking = false;
     PlayerCamera _playerCamera;
     PlayerMovement _playerMovement;
@@ -51,6 +52,7 @@ public class NotesManager : MonoBehaviour
                 if (_notesFlowTween.GetBooleanVariable("IsUp"))
                 {
                     _notesFlowTween.SendFungusMessage("Close");
+                    _cm.enabled = true;
                     GameManager._instance.SetIsInteracting(false);
                     _cursor.SetActive(false);
                 }
@@ -62,8 +64,8 @@ public class NotesManager : MonoBehaviour
                         if (btn != null && !btn.transform.GetChild(1).gameObject.activeSelf)
                             note.GetComponent<Button>().interactable = true;
                     }
-
                     _notesFlowTween.SendFungusMessage("Open");
+                    _cm.enabled = false;
                     GameManager._instance.SetIsInteracting(true);
                     _cursor.SetActive(true);
                 }
@@ -84,7 +86,6 @@ public class NotesManager : MonoBehaviour
 
     public void AddNote(Note note)
     {
-        _addItemEffect.GetComponent<Flowchart>().SendFungusMessage("Open");
         _noteInventory.Add(note);
         var go = Instantiate(_noteButtonPrefab, _viewportContentForNotes);
         go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = note._noteTextForUI;
@@ -103,9 +104,18 @@ public class NotesManager : MonoBehaviour
 
     public void RemoveNote(Note note)
     {
-        _addItemEffect.GetComponent<Flowchart>().SendFungusMessage("Open");
         note._uiInstance.transform.GetChild(1).gameObject.SetActive(true);
         note._uiInstance.GetComponent<Button>().interactable = false;
         note._uiInstance.GetComponent<Button>().onClick.RemoveListener(() => SetActiveNote(note));
+    }
+
+    public void OpenNotes()
+    {
+        _addItemEffect.GetComponent<Flowchart>().SendFungusMessage(_openNotesMessage);
+    }
+
+    public void CloseNotes()
+    {
+        _addItemEffect.GetComponent<Flowchart>().SendFungusMessage(_closeNotesMessage);
     }
 }

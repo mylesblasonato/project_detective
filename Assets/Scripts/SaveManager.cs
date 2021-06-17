@@ -23,17 +23,16 @@ public class SaveManager : MonoBehaviour
     public GameObject _cursor;
     public NotesManager _nm;
     public ClueManager _cm;
-    public Transform _cluesParent;
 
     [Header("SAVE DATA")]
     public Transform _player;
-    PlayerTransformData _playerTransformData;
+    public Transform _cluesParent;
 
     public void Save()
     {
         // SAVE PLAYER
-        _playerTransformData = new PlayerTransformData(_player.position, _player.eulerAngles);
-        SaveGame.Save<PlayerTransformData>("PlayerData", _playerTransformData, new SaveGameBinarySerializer());
+        var playerTransformData = new PlayerTransformData(_player.position, _player.eulerAngles);
+        SaveGame.Save<PlayerTransformData>("PlayerData", playerTransformData, new SaveGameBinarySerializer());
 
         // SAVE CLUES
         foreach (Transform clue in _cluesParent)
@@ -45,8 +44,8 @@ public class SaveManager : MonoBehaviour
     public void Load()
     {
         // LOAD PLAYER
-        _playerTransformData = SaveGame.Load<PlayerTransformData>("PlayerData", new PlayerTransformData(Vector3.zero, Vector3.zero), new SaveGameBinarySerializer());
-        _player.SetPositionAndRotation(_playerTransformData.pos, Quaternion.Euler(_playerTransformData.rot));
+        var playerTransformData = SaveGame.Load<PlayerTransformData>("PlayerData", new PlayerTransformData(Vector3.zero, Vector3.zero), new SaveGameBinarySerializer());
+        _player.SetPositionAndRotation(playerTransformData.pos, Quaternion.Euler(playerTransformData.rot));
 
         // LOAD CLUES
         foreach (Transform clue in _cluesParent)
