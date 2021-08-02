@@ -10,7 +10,7 @@ public class Note : ScriptableObject
 
     public bool IsCollected { get; set; }
 
-    public bool IsUsed { get; set; }
+    public bool IsUsed { get; set; } = false;
 
     public void Load()
     {

@@ -83,6 +83,7 @@ namespace Fungus
         {
             var savePointData = JsonUtility.FromJson<SavePointData>(saveDataJSON);
 
+            
             UnityAction<Scene, LoadSceneMode> onSceneLoadedAction = null;
 
             onSceneLoadedAction = (scene, mode) =>  {
@@ -107,7 +108,8 @@ namespace Fungus
             };
                 
             SceneManager.sceneLoaded += onSceneLoadedAction;
-            SceneManager.LoadScene(savePointData.SceneName);
+            //SceneManager.LoadScene(savePointData.SceneName);
+            
         }     
 
         #endregion

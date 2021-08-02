@@ -2,6 +2,8 @@ using UnityEngine;
 using BayatGames.SaveGameFree;
 using BayatGames.SaveGameFree.Types;
 using BayatGames.SaveGameFree.Serializers;
+using Fungus;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class PlayerTransformData
@@ -23,16 +25,37 @@ public class SaveManager : MonoBehaviour
     public GameObject _cursor;
     public NotesManager _nm;
     public ClueManager _cm;
+    public SaveMenu _sm;
 
     [Header("SAVE DATA")]
     public Transform _player;
     public Transform _cluesParent;
+    public Transform _interactables;
+
+    public void DeleteSave()
+    {
+        SaveGame.DeleteAll();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Save();
+    }
 
     public void Save()
     {
+        SaveGame.Clear();
+
         // SAVE PLAYER
         var playerTransformData = new PlayerTransformData(_player.position, _player.eulerAngles);
         SaveGame.Save<PlayerTransformData>("PlayerData", playerTransformData, new SaveGameBinarySerializer());
+
+        // SAVE INTERACTABLES
+        foreach (Transform item in _interactables)
+        {
+            var interactableTransformData = new PlayerTransformData(item.position, item.eulerAngles);
+            SaveGame.Save<PlayerTransformData>("InteractableData" + item.name, interactableTransformData, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>("InteractableData" + item.name + "active", item.gameObject.activeSelf, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>("InteractableData" + item.name + "clueCollected", item.GetChild(0).GetComponent<Flowchart>().GetBooleanVariable("ClueCollected"), new SaveGameBinarySerializer());
+            SaveGame.Save<bool>("InteractableData" + item.name + "noteUsed", item.GetChild(0).GetComponent<Flowchart>().GetBooleanVariable("NoteUsed"), new SaveGameBinarySerializer());
+        }      
 
         // SAVE CLUES
         foreach (Transform clue in _cluesParent)
@@ -51,6 +74,8 @@ public class SaveManager : MonoBehaviour
             noteIndex++;
         }
         SaveGame.Save<int>("noteCount", _nm._noteInventory.Count, new SaveGameBinarySerializer());
+
+        _sm.Save();
     }
 
     public void Load()
@@ -58,6 +83,16 @@ public class SaveManager : MonoBehaviour
         // LOAD PLAYER
         var playerTransformData = SaveGame.Load<PlayerTransformData>("PlayerData", new PlayerTransformData(Vector3.zero, Vector3.zero), new SaveGameBinarySerializer());
         _player.SetPositionAndRotation(playerTransformData.pos, Quaternion.Euler(playerTransformData.rot));
+
+        // SAVE INTERACTABLES
+        foreach (Transform item in _interactables)
+        {
+            var interactableTransformData = SaveGame.Load<PlayerTransformData>("InteractableData" + item.name, new PlayerTransformData(Vector3.zero, Vector3.zero), new SaveGameBinarySerializer());
+            item.SetPositionAndRotation(interactableTransformData.pos, Quaternion.Euler(interactableTransformData.rot));
+            item.gameObject.SetActive(SaveGame.Load<bool>("InteractableData" + item.name + "active", item.gameObject.activeSelf, new SaveGameBinarySerializer()));
+            item.GetChild(0).GetComponent<Flowchart>().SetBooleanVariable("ClueCollected", SaveGame.Load<bool>("InteractableData" + item.name + "clueCollected", false, new SaveGameBinarySerializer()));
+            item.GetChild(0).GetComponent<Flowchart>().SetBooleanVariable("NoteUsed", SaveGame.Load<bool>("InteractableData" + item.name + "noteUsed", false, new SaveGameBinarySerializer()));
+        }
 
         // LOAD CLUES
         foreach (Transform clue in _cluesParent)
@@ -72,13 +107,15 @@ public class SaveManager : MonoBehaviour
         {
             string nam = SaveGame.Load<string>("note " + noteIndex, "Unknown Clue", new SaveGameBinarySerializer());
             Note note = Resources.Load<Note>("GameData/Notes/" + nam);
-            note.IsCollected = SaveGame.Load<bool>(note.name + noteIndex + "collected", note.IsCollected, new SaveGameBinarySerializer());
-            note.IsUsed = SaveGame.Load<bool>(note.name + noteIndex + "used", note.IsUsed, new SaveGameBinarySerializer());
+            note.IsCollected = SaveGame.Load<bool>(note.name + noteIndex + "collected", false, new SaveGameBinarySerializer());
+            note.IsUsed = SaveGame.Load<bool>(note.name + noteIndex + "used", false, new SaveGameBinarySerializer());
             _nm.AddNote(note);
             note.Load();
 
             noteIndex++;
         }
+
+        _sm.Load();
     }
 
     void Update()

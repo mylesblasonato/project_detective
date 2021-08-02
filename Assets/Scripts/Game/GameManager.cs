@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject _clueCanvas;
     public GameObject _saveCanvas;
     public Flowchart _notesCanvas;
-    
+    public GameObject[] _pointerCursors;
+
     bool _isInteracting = false;
     PlayerMovement _pm;
     PlayerCamera _pc;
@@ -59,6 +60,14 @@ public class GameManager : MonoBehaviour
         else
         {
             CanInteract(true);
+        }
+    }
+
+    public void ShowPointerCursors(bool show)
+    {
+        foreach (var item in _pointerCursors)
+        {
+            item.SetActive(show);
         }
     }
 
