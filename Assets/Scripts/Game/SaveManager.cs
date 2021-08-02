@@ -107,9 +107,9 @@ public class SaveManager : MonoBehaviour
         {
             string nam = SaveGame.Load<string>("note " + noteIndex, "Unknown Clue", new SaveGameBinarySerializer());
             Note note = Resources.Load<Note>("GameData/Notes/" + nam);
-            note.IsCollected = SaveGame.Load<bool>(note.name + noteIndex + "collected", false, new SaveGameBinarySerializer());
-            note.IsUsed = SaveGame.Load<bool>(note.name + noteIndex + "used", false, new SaveGameBinarySerializer());
+            note.IsCollected = SaveGame.Load<bool>(note.name + noteIndex + "collected", false, new SaveGameBinarySerializer());           
             _nm.AddNote(note);
+            note.IsUsed = SaveGame.Load<bool>(note.name + noteIndex + "used", false, new SaveGameBinarySerializer());
             note.Load();
 
             noteIndex++;

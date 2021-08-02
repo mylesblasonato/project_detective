@@ -87,6 +87,7 @@ public class NotesManager : MonoBehaviour
     public void AddNote(Note note)
     {
         _noteInventory.Add(note);
+        note.IsUsed = false;
         var go = Instantiate(_noteButtonPrefab, _viewportContentForNotes);
         go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = note._noteTextForUI;
 
