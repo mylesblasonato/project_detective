@@ -8,8 +8,11 @@ using UnityEngine.UI;
 public class ClueController : MonoBehaviour
 {
     public UIC_Entity _linkedClue;
+    public UIC_Node _linkedNode;
     public List<Note> _notesToReward;
     public Transform _content;
+    public bool _clueCollected = false;
+    public bool _clueLinked = false;
 
     UIC_Entity _clue01;
     NotesManager _nm;
@@ -24,6 +27,7 @@ public class ClueController : MonoBehaviour
 
     void Update()
     {
+        if (_clueLinked) return;
         var linkedClues = _clue01.GetConnectedEntities();
         if (linkedClues.Contains(_linkedClue))
         {
@@ -47,7 +51,8 @@ public class ClueController : MonoBehaviour
                         note.GetComponent<Button>().interactable = false;
                 }
 
-                Destroy(this);
+                enabled = false;
+                _clueLinked = true;
             }
         }
     }

@@ -8,9 +8,12 @@ public class ClueManager : MonoBehaviour
 {
     public KeyCode openUIKey;
     public GameObject _clueCanvas;
+    public Transform _clueParent;
     public Flowchart _notesFlowchart, _addItemEffect;
     public PlayerCamera _playerCamera;
     public NotesManager _nm;
+
+    List<GameObject> _clueList = new List<GameObject>();
 
     void Awake()
     {
@@ -18,6 +21,11 @@ public class ClueManager : MonoBehaviour
         _playerCamera = FindObjectOfType<PlayerCamera>();
         _notesFlowchart = GameObject.FindGameObjectWithTag("NotesTween").GetComponent<Flowchart>();
         _clueCanvas = GameObject.FindGameObjectWithTag("ClueCanvas");
+
+        foreach (Transform item in _clueParent)
+        {
+            _clueList.Add(item.gameObject);
+        }
     }
 
     void Start()
@@ -28,6 +36,7 @@ public class ClueManager : MonoBehaviour
 
     public void AddClue(GameObject _clue)
     {
+        _clue.GetComponent<ClueController>()._clueCollected = true;
         _clue.SetActive(true);
     }
 

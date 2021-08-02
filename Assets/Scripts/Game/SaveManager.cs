@@ -60,7 +60,9 @@ public class SaveManager : MonoBehaviour
         // SAVE CLUES
         foreach (Transform clue in _cluesParent)
         {
-            SaveGame.Save<bool>(clue.name, clue.gameObject.activeSelf, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>(clue.name, clue.GetComponent<ClueController>()._clueCollected, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>(clue.name + "enabled", clue.GetComponent<ClueController>().enabled, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>(clue.name + "linked", clue.GetComponent<ClueController>()._clueLinked, new SaveGameBinarySerializer());
         }
 
         int noteIndex = 0;
@@ -97,12 +99,21 @@ public class SaveManager : MonoBehaviour
         // LOAD CLUES
         foreach (Transform clue in _cluesParent)
         {
-            var hasClue = SaveGame.Load<bool>(clue.name, false, new SaveGameBinarySerializer());
-            clue.gameObject.SetActive(hasClue);
+            var hasClue = SaveGame.Load<bool>(clue.name, false, new SaveGameBinarySerializer()); 
+            clue.GetComponent<ClueController>()._clueCollected = hasClue;
+            clue.gameObject.SetActive(clue.GetComponent<ClueController>()._clueCollected);
+            clue.GetComponent<ClueController>().enabled = SaveGame.Load<bool>(clue.name + "enabled", false, new SaveGameBinarySerializer());
+            clue.GetComponent<ClueController>()._clueLinked = SaveGame.Load<bool>(clue.name + "linked", false, new SaveGameBinarySerializer());
+            var inOut = clue.GetChild(1).GetChild(0);
+            inOut.GetComponent<UIC_Node>().ConnectTo(clue.GetComponent<ClueController>()._linkedNode);
         }
 
         int noteIndex = 0;
         // LOAD NOTES
+        foreach (Transform note in _nm._viewportContentForNotes)
+        {
+            Destroy(note.gameObject);
+        }
         while (noteIndex < SaveGame.Load<int>("noteCount", _nm._noteInventory.Count, new SaveGameBinarySerializer()))
         {
             string nam = SaveGame.Load<string>("note " + noteIndex, "Unknown Clue", new SaveGameBinarySerializer());
