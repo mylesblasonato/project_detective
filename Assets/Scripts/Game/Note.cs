@@ -8,6 +8,16 @@ public class Note : ScriptableObject
 
     NotesManager _nm;
 
+    public bool IsCollected { get; set; }
+
+    public bool IsUsed { get; set; }
+
+    public void Load()
+    {
+        _nm = GameObject.FindObjectOfType<NotesManager>();
+        if (IsUsed) _nm.RemoveNote(this);
+    }
+
     public void FindNote()
     {
         _nm = FindObjectOfType<NotesManager>();

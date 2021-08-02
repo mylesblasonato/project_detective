@@ -104,6 +104,7 @@ public class NotesManager : MonoBehaviour
 
     public void RemoveNote(Note note)
     {
+        note.IsUsed = true;
         note._uiInstance.transform.GetChild(1).gameObject.SetActive(true);
         note._uiInstance.GetComponent<Button>().interactable = false;
         note._uiInstance.GetComponent<Button>().onClick.RemoveListener(() => SetActiveNote(note));

@@ -39,6 +39,18 @@ public class SaveManager : MonoBehaviour
         {
             SaveGame.Save<bool>(clue.name, clue.gameObject.activeSelf, new SaveGameBinarySerializer());
         }
+
+        int noteIndex = 0;
+        // SAVE NOTES
+        foreach (Note note in _nm._noteInventory)
+        {
+            SaveGame.Save<string>("note " + noteIndex, note.name, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>(note.name + noteIndex + "collected", note.IsCollected, new SaveGameBinarySerializer());
+            SaveGame.Save<bool>(note.name + noteIndex + "used", note.IsUsed, new SaveGameBinarySerializer());
+
+            noteIndex++;
+        }
+        SaveGame.Save<int>("noteCount", _nm._noteInventory.Count, new SaveGameBinarySerializer());
     }
 
     public void Load()
@@ -52,6 +64,20 @@ public class SaveManager : MonoBehaviour
         {
             var hasClue = SaveGame.Load<bool>(clue.name, false, new SaveGameBinarySerializer());
             clue.gameObject.SetActive(hasClue);
+        }
+
+        int noteIndex = 0;
+        // LOAD NOTES
+        while (noteIndex < SaveGame.Load<int>("noteCount", _nm._noteInventory.Count, new SaveGameBinarySerializer()))
+        {
+            string nam = SaveGame.Load<string>("note " + noteIndex, "Unknown Clue", new SaveGameBinarySerializer());
+            Note note = Resources.Load<Note>("GameData/Notes/" + nam);
+            note.IsCollected = SaveGame.Load<bool>(note.name + noteIndex + "collected", note.IsCollected, new SaveGameBinarySerializer());
+            note.IsUsed = SaveGame.Load<bool>(note.name + noteIndex + "used", note.IsUsed, new SaveGameBinarySerializer());
+            _nm.AddNote(note);
+            note.Load();
+
+            noteIndex++;
         }
     }
 
